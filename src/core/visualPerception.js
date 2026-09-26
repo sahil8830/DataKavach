@@ -110,7 +110,7 @@ export class BrowserVisionProvider extends VisualPerceptionProvider {
           isMaskedInput: false,
           hasBorder: true,
           backgroundColor: "#FFFFFF",
-          renderedText: pageData.name || "Vrushabh Tonge",
+          renderedText: pageData.name || "",
           visualCategory: "TEXT_INPUT"
         },
         source: "VISION",
@@ -125,7 +125,7 @@ export class BrowserVisionProvider extends VisualPerceptionProvider {
         visualFeatures: {
           isMaskedInput: false,
           hasIcon: false,
-          renderedText: pageData.email || "vrushabh.demo@example.com",
+          renderedText: pageData.email || "",
           visualCategory: "TEXT_INPUT"
         },
         source: "VISION",
@@ -139,7 +139,7 @@ export class BrowserVisionProvider extends VisualPerceptionProvider {
         detectionScore: 0.89,
         visualFeatures: {
           isMaskedInput: false,
-          renderedText: pageData.phone || "+91 98765 43210",
+          renderedText: pageData.phone || "",
           visualCategory: "TEXT_INPUT"
         },
         source: "VISION",
@@ -170,7 +170,7 @@ export class BrowserVisionProvider extends VisualPerceptionProvider {
         visualFeatures: {
           isMonospaceFont: true,
           hasBorderPill: true,
-          renderedText: pageData.apiKey || "DEMO_API_KEY_123456",
+          renderedText: pageData.apiKey || "",
           visualCategory: "CODE_BADGE"
         },
         source: "VISION",

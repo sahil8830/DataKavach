@@ -20,11 +20,11 @@ export const INITIAL_TABS = [
     privacyMode: "BALANCED",
     isProtected: true,
     data: {
-      name: "Vrushabh Tonge",
-      email: "vrushabh.demo@example.com",
-      phone: "+91 98765 43210",
-      password: "DemoPassword123",
-      apiKey: "DEMO_API_KEY_123456"
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      apiKey: ""
     }
   },
   {
@@ -37,11 +37,11 @@ export const INITIAL_TABS = [
     privacyMode: "STRICT",
     isProtected: true,
     data: {
-      name: "Mission Controller Alpha",
-      email: "flight.ops@isro-internal.local",
-      phone: "+91 91234 56789",
-      password: "InternalOpsSecretPassword!9",
-      apiKey: "INT_COMMS_TOKEN_998811"
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      apiKey: ""
     }
   },
   {
@@ -54,11 +54,11 @@ export const INITIAL_TABS = [
     privacyMode: "STRICT",
     isProtected: true,
     data: {
-      name: "ISRO Procurement Unit",
-      email: "finance.auth@bank.local",
-      phone: "+91 94567 89012",
-      password: "BankingAuthMasterPassword987",
-      apiKey: "BANK_VAULT_KEY_774411"
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      apiKey: ""
     }
   }
 ];
