@@ -200,43 +200,43 @@ export default function App() {
           </div>
 
           {/* AI Task Action Bar */}
-          <div className="mt-3 bg-white border border-gray-200 rounded-lg p-3 flex flex-wrap items-center justify-between gap-3">
+          <div className="mt-3 bg-white border border-gray-200 rounded-lg p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3">
             <div className="flex items-center gap-2">
-              <span className={`w-2.5 h-2.5 rounded-full ${isProtected ? 'bg-emerald-500' : 'bg-gray-400'}`} />
+              <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${isProtected ? 'bg-emerald-500' : 'bg-gray-400'}`} />
               <span className="text-xs text-gray-600">
                 AI Privacy Firewall {isProtected ? 'Active' : 'Disabled'} · {detections.length} DOM items · {visualPerceptionOutput.totalRegions} visual regions
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button 
                 onClick={() => setShowPerceptionOverlay(!showPerceptionOverlay)}
-                className={`px-3 py-1.5 rounded-md text-xs font-medium border transition-colors cursor-pointer ${
+                className={`px-2.5 py-1.5 rounded-md text-xs font-medium border transition-colors cursor-pointer ${
                   showPerceptionOverlay 
                     ? 'bg-purple-50 text-purple-700 border-purple-300' 
                     : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
                 }`}
               >
-                👁️ {showPerceptionOverlay ? 'Perception Overlay ON' : 'Show Local Perception'}
+                👁️ {showPerceptionOverlay ? 'Perception ON' : 'Visual Perception'}
               </button>
               <button 
                 onClick={() => handleTriggerAiTask("Find the Login button and log me in.")}
                 disabled={isAiRunning}
-                className="px-3 py-1.5 bg-indigo-600 text-white rounded-md text-xs font-medium hover:bg-indigo-700 disabled:opacity-50 transition-colors cursor-pointer"
+                className="px-2.5 py-1.5 bg-indigo-600 text-white rounded-md text-xs font-medium hover:bg-indigo-700 disabled:opacity-50 transition-colors cursor-pointer"
               >
-                {isAiRunning ? '⚡ Processing...' : '🤖 Ask AI to log me in'}
+                {isAiRunning ? '⚡ Processing...' : '🤖 Ask AI to login'}
               </button>
               <button 
                 onClick={() => handleTriggerAiTask("Download the report.")}
                 disabled={isAiRunning}
-                className="px-3 py-1.5 bg-white text-gray-700 border border-gray-300 rounded-md text-xs font-medium hover:bg-gray-50 disabled:opacity-50 transition-colors cursor-pointer"
+                className="px-2.5 py-1.5 bg-white text-gray-700 border border-gray-300 rounded-md text-xs font-medium hover:bg-gray-50 disabled:opacity-50 transition-colors cursor-pointer"
               >
-                📥 Download Report
+                📥 Download
               </button>
               <button 
                 onClick={() => setCurrentView('dashboard')}
-                className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-md text-xs font-medium hover:bg-gray-200 transition-colors cursor-pointer"
+                className="px-2.5 py-1.5 bg-gray-100 text-gray-600 rounded-md text-xs font-medium hover:bg-gray-200 transition-colors cursor-pointer"
               >
-                ⚙️ Security Dashboard
+                ⚙️ Dashboard
               </button>
             </div>
           </div>
@@ -244,9 +244,9 @@ export default function App() {
 
         {/* Footer */}
         <footer className="border-t border-gray-200 bg-white py-2 text-center text-[11px] text-gray-400">
-          <div className="max-w-6xl mx-auto px-4 flex flex-wrap items-center justify-between gap-2">
+          <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-1 sm:gap-2">
             <span>AI Privacy Firewall · SIH 2026</span>
-            <span className="text-gray-500">ISRO SIH26171 — On-Device Visual Perception for Lightweight Browser Agents</span>
+            <span className="text-gray-500 text-center">ISRO SIH26171 — On-Device Visual Perception</span>
             <span>Version 2 Enhanced Prototype</span>
           </div>
         </footer>

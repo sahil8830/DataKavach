@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, Shield, Eye, FileText, Send, Lock, KeyRound,
   Activity, Settings, List, Play, Info, CheckCircle2,
@@ -56,13 +56,97 @@ export default function SecurityDashboard({
 }) {
   const [activeSection, setActiveSection] = useState('overview');
   const [eventsList, setEventsList] = useState(() => getEvents());
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const refreshEvents = () => setEventsList(getEvents());
 
+  // Close sidebar on section change (mobile)
+  const handleSectionChange = (id) => {
+    setActiveSection(id);
+    setSidebarOpen(false);
+  };
+
+  // Close sidebar on outside click (mobile)
+  useEffect(() => {
+    const handleKey = (e) => { if (e.key === 'Escape') setSidebarOpen(false); };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, []);
+
+  const currentSidebarItem = SIDEBAR_ITEMS.find(s => s.id === activeSection);
+
   return (
-    <div className="min-h-screen bg-[#F7F8FA] flex">
-      {/* Sidebar */}
-      <div className="w-60 bg-white border-r border-gray-200 flex flex-col shrink-0">
+    <div className="min-h-screen bg-[#F7F8FA] flex flex-col md:flex-row">
+      {/* Mobile Top Bar */}
+      <div className="md:hidden sticky top-0 z-50 bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+        <button onClick={onBack} className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 cursor-pointer">
+          <ArrowLeft className="w-3.5 h-3.5" /> Browser
+        </button>
+        <div className="flex items-center gap-2">
+          <Shield className="w-4 h-4 text-indigo-600" />
+          <span className="text-sm font-semibold text-gray-800">
+            {currentSidebarItem?.label || 'Dashboard'}
+          </span>
+        </div>
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="p-2 rounded-md hover:bg-gray-100 text-gray-600 cursor-pointer"
+          aria-label="Open navigation menu"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div className="md:hidden fixed inset-0 z-50 flex">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={() => setSidebarOpen(false)}
+          />
+          {/* Drawer */}
+          <div className="relative w-72 max-w-[85vw] bg-white flex flex-col shadow-xl z-10">
+            <div className="px-4 py-4 border-b border-gray-200">
+              <button onClick={onBack} className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 mb-3 cursor-pointer">
+                <ArrowLeft className="w-3.5 h-3.5" /> Back to Browser
+              </button>
+              <div className="flex items-center gap-2">
+                <Shield className="w-5 h-5 text-indigo-600" />
+                <div>
+                  <div className="text-sm font-semibold text-gray-800">Security Dashboard</div>
+                  <div className="text-[10px] text-gray-500">ISRO SIH26171 · Version 2</div>
+                </div>
+              </div>
+            </div>
+            <nav className="flex-1 py-2 overflow-y-auto">
+              {SIDEBAR_ITEMS.map(item => {
+                const Icon = item.icon;
+                const isActive = activeSection === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleSectionChange(item.id)}
+                    className={`w-full text-left px-4 py-2.5 text-sm flex items-center gap-2.5 transition-colors cursor-pointer ${
+                      isActive
+                        ? 'bg-indigo-50 text-indigo-700 font-medium border-r-2 border-indigo-600'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4 shrink-0" />
+                    {item.label}
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+        </div>
+      )}
+
+      {/* Desktop Sidebar */}
+      <div className="hidden md:flex w-60 bg-white border-r border-gray-200 flex-col shrink-0 sticky top-0 h-screen overflow-y-auto">
         <div className="px-4 py-4 border-b border-gray-200">
           <button onClick={onBack} className="flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-800 mb-3 cursor-pointer">
             <ArrowLeft className="w-3.5 h-3.5" /> Back to Browser
@@ -98,15 +182,15 @@ export default function SecurityDashboard({
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 p-6 overflow-y-auto">
-        <div className="max-w-4xl space-y-6">
+      <div className="flex-1 p-4 md:p-6 overflow-y-auto">
+        <div className="max-w-4xl space-y-5 md:space-y-6">
 
           {/* OVERVIEW */}
           {activeSection === 'overview' && (
             <div className="space-y-5">
               <SectionHeader title="System Overview" subtitle="On-Device Visual Perception & AI Privacy Firewall Status" />
               
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <StatCard label="Protection" value={isProtected ? 'ON' : 'OFF'} color={isProtected ? 'emerald' : 'gray'} />
                 <StatCard label="DOM Detections" value={detections.length} color="blue" />
                 <StatCard label="Visual Regions" value={visualRegions.length} color="purple" />
@@ -197,8 +281,8 @@ export default function SecurityDashboard({
                 subtitle="Multimodal Evidence Agreement — DOM Structure + Visual Bounding Boxes" 
               />
 
-              <div className="grid grid-cols-3 gap-3">
-                <StatCard label="Multimodal (DOM + Vision)" value={fusedElements.filter(e => e.source === 'DOM + VISION').length} color="emerald" />
+              <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                <StatCard label="DOM + Vision" value={fusedElements.filter(e => e.source === 'DOM + VISION').length} color="emerald" />
                 <StatCard label="Vision Only" value={fusedElements.filter(e => e.source === 'VISION').length} color="purple" />
                 <StatCard label="DOM Only" value={fusedElements.filter(e => e.source === 'DOM').length} color="blue" />
               </div>
@@ -269,10 +353,10 @@ export default function SecurityDashboard({
 
               {taskFilteredContext && (
                 <>
-                  <div className="grid grid-cols-3 gap-3">
-                    <StatCard label="Preserved for Goal" value={taskFilteredContext.minimizationSummary.preservedForTask} color="emerald" />
-                    <StatCard label="Pruned for Privacy" value={taskFilteredContext.minimizationSummary.prunedForPrivacy} color="amber" />
-                    <StatCard label="Data Reduction" value={`${taskFilteredContext.minimizationSummary.dataReductionPercent}%`} color="indigo" />
+                  <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                    <StatCard label="Preserved" value={taskFilteredContext.minimizationSummary.preservedForTask} color="emerald" />
+                    <StatCard label="Pruned" value={taskFilteredContext.minimizationSummary.prunedForPrivacy} color="amber" />
+                    <StatCard label="Reduction" value={`${taskFilteredContext.minimizationSummary.dataReductionPercent}%`} color="indigo" />
                   </div>
 
                   <Card title={`Active Task: "${taskFilteredContext.userTask || 'Find the Login button and log me in.'}"`}>
@@ -500,7 +584,7 @@ export default function SecurityDashboard({
           {activeSection === 'report' && (
             <div className="space-y-5">
               <SectionHeader title="Privacy Report" subtitle="Live counters derived from active prototype execution" />
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <StatCard label="Detected" value={detections.length} color="blue" />
                 <StatCard label="Blocked" value={detections.filter(d => d.action === 'BLOCK').length} color="red" />
                 <StatCard label="Sanitized" value={detections.filter(d => d.action === 'REDACT').length} color="amber" />

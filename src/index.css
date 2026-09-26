@@ -45,3 +45,23 @@ body {
 code, pre, .font-mono {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
+
+/* Hide scrollbar but keep scrolling (mobile tab bars, nav) */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth touch scrolling on mobile */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent text size adjustment on mobile rotation */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}

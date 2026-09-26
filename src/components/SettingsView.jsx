@@ -105,10 +105,10 @@ export default function SettingsView({
         </div>
 
         {/* Section Navigation */}
-        <div className="flex items-center space-x-1 bg-[#070a12] border border-slate-800 p-1 rounded font-mono text-xs">
+        <div className="flex items-center overflow-x-auto bg-[#070a12] border border-slate-800 p-1 rounded font-mono text-xs gap-1 scrollbar-none">
           <button
             onClick={() => setActiveSubSection('rules')}
-            className={`px-3 py-1 rounded transition-colors ${
+            className={`px-2.5 sm:px-3 py-1 rounded transition-colors whitespace-nowrap shrink-0 ${
               activeSubSection === 'rules' ? 'bg-slate-800 text-white font-semibold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -116,18 +116,18 @@ export default function SettingsView({
           </button>
           <button
             onClick={() => setActiveSubSection('policies')}
-            className={`px-3 py-1 rounded transition-colors ${
+            className={`px-2.5 sm:px-3 py-1 rounded transition-colors whitespace-nowrap shrink-0 ${
               activeSubSection === 'policies' ? 'bg-slate-800 text-white font-semibold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            Website Policies
+            Policies
           </button>
           <button
             onClick={() => {
               setActiveSubSection('events');
               refreshEvents();
             }}
-            className={`px-3 py-1 rounded transition-colors ${
+            className={`px-2.5 sm:px-3 py-1 rounded transition-colors whitespace-nowrap shrink-0 ${
               activeSubSection === 'events' ? 'bg-slate-800 text-white font-semibold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -135,11 +135,11 @@ export default function SettingsView({
           </button>
           <button
             onClick={() => setActiveSubSection('about')}
-            className={`px-3 py-1 rounded transition-colors ${
+            className={`px-2.5 sm:px-3 py-1 rounded transition-colors whitespace-nowrap shrink-0 ${
               activeSubSection === 'about' ? 'bg-slate-800 text-white font-semibold' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            About & Architecture
+            About
           </button>
         </div>
       </div>
@@ -148,8 +148,8 @@ export default function SettingsView({
       {activeSubSection === 'rules' && (
         <div className="space-y-6">
           {/* Master Toggle & Mode */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-[#0a0e17] border border-slate-800 rounded p-4 flex items-center justify-between">
+          <div className="grid grid-cols-1 gap-4">
+            <div className="bg-[#0a0e17] border border-slate-800 rounded p-4 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <span className="text-xs font-bold text-white block">Firewall Protection State:</span>
                 <span className="text-[11px] text-slate-400">Controls active on-device interception and sanitization</span>
@@ -164,7 +164,7 @@ export default function SettingsView({
               </button>
             </div>
 
-            <div className="bg-[#0a0e17] border border-slate-800 rounded p-4 flex items-center justify-between">
+            <div className="bg-[#0a0e17] border border-slate-800 rounded p-4 flex flex-wrap items-center justify-between gap-3">
               <div>
                 <span className="text-xs font-bold text-white block">Global Privacy Mode:</span>
                 <span className="text-[11px] text-slate-400">Strict (Max blocking), Balanced (Semantic preservation), Custom</span>
@@ -190,9 +190,9 @@ export default function SettingsView({
 
             <div className="divide-y divide-slate-800/80 text-xs font-mono">
               {Object.entries(DEFAULT_RULES).map(([key, rule]) => (
-                <div key={key} className="px-4 py-3 flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <div className="flex items-center space-x-2">
+                <div key={key} className="px-3 sm:px-4 py-3 flex flex-wrap items-start sm:items-center justify-between gap-2">
+                  <div className="space-y-0.5 flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="text-white font-semibold">{rule.label}</span>
                       <span className={`text-[10px] px-1.5 py-0.2 rounded border font-bold ${
                         rule.level === 'CRITICAL' ? 'bg-red-950 text-red-300 border-red-800' :
@@ -211,7 +211,7 @@ export default function SettingsView({
                     </p>
                   </div>
 
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 shrink-0">
                     {rule.canWeaken ? (
                       <span className="text-xs text-slate-300 px-2.5 py-1 rounded bg-[#111622] border border-slate-700">
                         {rule.action}
@@ -337,21 +337,21 @@ export default function SettingsView({
             </div>
 
             {/* Actions */}
-            <div className="p-4 bg-[#111622] border-t border-slate-800 flex items-center justify-between">
+            <div className="p-4 bg-[#111622] border-t border-slate-800 flex flex-wrap items-center justify-between gap-2">
               <button
                 onClick={handleResetPolicy}
-                className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold flex items-center space-x-1 cursor-pointer"
+                className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold flex items-center space-x-1 cursor-pointer text-xs"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>[ Reset Website Policy ]</span>
+                <span>Reset Policy</span>
               </button>
 
               <button
                 onClick={handleSavePolicy}
-                className="px-4 py-1.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-bold flex items-center space-x-1.5 cursor-pointer"
+                className="px-4 py-1.5 rounded bg-emerald-700 hover:bg-emerald-600 text-white font-bold flex items-center space-x-1.5 cursor-pointer text-xs"
               >
                 <Save className="w-3.5 h-3.5" />
-                <span>[ Save Policy ]</span>
+                <span>Save Policy</span>
               </button>
             </div>
           </div>

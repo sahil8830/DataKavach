@@ -110,7 +110,28 @@ export function fuseContexts(domDetections = [], visualRegions = [], options = {
   for (const visItem of visualRegions) {
     if (matchedVisionIds.has(visItem.id)) continue;
 
-    if (visItem.type === 'VISUAL_ACCOUNT_SEAL') {
+    if (visItem.type === 'FACE') {
+      fusedElements.push({
+        id: `fused-vis-face`,
+        type: "FACE",
+        label: "Employee Profile Face (Biometric PII)",
+        category: "Biometric Identity PII",
+        sensitivityLevel: SENSITIVITY_LEVELS.HIGH.level,
+        action: "REDACT",
+        redactionMode: "BLUR",
+        rawValue: "[Biometric Face Pixels]",
+        sanitizedValue: "[BLURRED_FACE_PIXELS]",
+        source: "VISION",
+        evidenceSources: ["VISION"],
+        agreement: FUSION_AGREEMENT_LEVELS.VISION_ONLY.label,
+        evidenceSummary: "Identified via on-device Face Detection at viewport [530, 250, 80, 80]",
+        domSignal: "Absent from standard DOM form fields (Rendered image avatar)",
+        visualSignal: "Biometric facial features & landmarks detected locally",
+        boundingBox: visItem.boundingBox,
+        visualFeatures: visItem.visualFeatures,
+        detectionScore: visItem.detectionScore
+      });
+    } else if (visItem.type === 'VISUAL_ACCOUNT_SEAL') {
       fusedElements.push({
         id: `fused-vis-seal`,
         type: "VISUAL_ACCOUNT_SEAL",
