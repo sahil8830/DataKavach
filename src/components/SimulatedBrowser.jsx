@@ -290,7 +290,7 @@ export default function SimulatedBrowser({
                 </div>
                 <div>
                   <div className="text-[11px] font-bold text-gray-800 flex items-center gap-1">
-                    <span>Vrushabh Tonge</span>
+                    <span>{pageData.name || <span className="text-gray-400 italic">Enter your name</span>}</span>
                     <span className="text-[9px] bg-purple-100 text-purple-700 px-1 rounded font-mono">
                       FACE
                     </span>
@@ -313,7 +313,7 @@ export default function SimulatedBrowser({
                   <div className="text-[11px] font-bold text-indigo-950 flex items-center gap-1.5">
                     <span>CONFIDENTIAL SEAL</span>
                     <span className="text-[10px] bg-indigo-200 text-indigo-800 px-1 rounded font-mono">
-                      ACCT-849204
+                      {pageData.apiKey ? `ACCT-${pageData.apiKey.slice(-6)}` : 'ACCT-######'}
                     </span>
                   </div>
                   <div className="text-[10px] text-indigo-700">
@@ -348,7 +348,8 @@ export default function SimulatedBrowser({
                     type="text" 
                     value={pageData.name || ''} 
                     onChange={(e) => setPageData({...pageData, name: e.target.value})}
-                    className="flex-1 min-w-0 text-sm text-gray-800 bg-transparent border-b border-gray-200 focus:border-indigo-400 focus:outline-none px-1 py-0.5"
+                    placeholder="Enter full name"
+                    className="flex-1 min-w-0 text-sm text-gray-800 bg-transparent border-b border-gray-200 focus:border-indigo-400 focus:outline-none px-1 py-0.5 placeholder:text-gray-300"
                   />
                 </div>
                 {isProtected && showHighlights && nameDet && <DetBadge det={nameDet} />}
@@ -363,7 +364,8 @@ export default function SimulatedBrowser({
                     type="email" 
                     value={pageData.email || ''} 
                     onChange={(e) => setPageData({...pageData, email: e.target.value})}
-                    className="flex-1 min-w-0 text-sm text-gray-800 bg-transparent border-b border-gray-200 focus:border-indigo-400 focus:outline-none px-1 py-0.5"
+                    placeholder="user@example.com"
+                    className="flex-1 min-w-0 text-sm text-gray-800 bg-transparent border-b border-gray-200 focus:border-indigo-400 focus:outline-none px-1 py-0.5 placeholder:text-gray-300"
                   />
                 </div>
                 {isProtected && showHighlights && emailDet && <DetBadge det={emailDet} />}
@@ -378,7 +380,8 @@ export default function SimulatedBrowser({
                     type="tel" 
                     value={pageData.phone || ''} 
                     onChange={(e) => setPageData({...pageData, phone: e.target.value})}
-                    className="flex-1 min-w-0 text-sm text-gray-800 bg-transparent border-b border-gray-200 focus:border-indigo-400 focus:outline-none px-1 py-0.5"
+                    placeholder="+91 00000 00000"
+                    className="flex-1 min-w-0 text-sm text-gray-800 bg-transparent border-b border-gray-200 focus:border-indigo-400 focus:outline-none px-1 py-0.5 placeholder:text-gray-300"
                   />
                 </div>
                 {isProtected && showHighlights && phoneDet && <DetBadge det={phoneDet} />}
@@ -394,7 +397,8 @@ export default function SimulatedBrowser({
                       type={showPasswordText ? 'text' : 'password'} 
                       value={pageData.password || ''} 
                       onChange={(e) => setPageData({...pageData, password: e.target.value})}
-                      className="flex-1 min-w-0 text-sm text-gray-800 bg-transparent focus:outline-none px-1 py-0.5"
+                      placeholder="Enter password"
+                      className="flex-1 min-w-0 text-sm text-gray-800 bg-transparent focus:outline-none px-1 py-0.5 placeholder:text-gray-300"
                     />
                     <button onClick={() => setShowPasswordText(!showPasswordText)} className="p-0.5 text-gray-400 hover:text-gray-600 cursor-pointer shrink-0">
                       {showPasswordText ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
@@ -410,9 +414,13 @@ export default function SimulatedBrowser({
                 <div className="flex items-center gap-2">
                   <label className="text-xs text-gray-500 w-20 shrink-0">API Key</label>
                   <div className="flex-1 min-w-0 flex items-center overflow-hidden">
-                    <span className="text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded border border-gray-200 truncate max-w-full">
-                      {pageData.apiKey || ''}
-                    </span>
+                    <input
+                      type="text"
+                      value={pageData.apiKey || ''}
+                      onChange={(e) => setPageData({...pageData, apiKey: e.target.value})}
+                      placeholder="e.g. sk-xxxx-xxxx"
+                      className="flex-1 min-w-0 text-xs font-mono text-gray-600 bg-gray-100 px-2 py-1 rounded border border-gray-200 truncate focus:outline-none focus:border-indigo-400 placeholder:text-gray-300"
+                    />
                   </div>
                 </div>
                 {isProtected && showHighlights && keyDet && <DetBadge det={keyDet} />}
